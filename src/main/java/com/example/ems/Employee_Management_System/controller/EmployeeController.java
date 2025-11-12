@@ -7,6 +7,7 @@ import com.example.ems.Employee_Management_System.exception.DepartmentNotFoundEx
 import com.example.ems.Employee_Management_System.exception.EmployeeNotFoundException;
 import com.example.ems.Employee_Management_System.repository.DepartmentRepository;
 import com.example.ems.Employee_Management_System.repository.EmployeeRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/employees")
+@CrossOrigin("http://localhost:5173")
 public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;
@@ -81,6 +83,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employee);
     }
 
+
     // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
@@ -90,4 +93,5 @@ public class EmployeeController {
         employeeRepository.delete(employee);
         return ResponseEntity.ok("Employee deleted successfully");
     }
+
 }

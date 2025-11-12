@@ -12,10 +12,10 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/departments")
+@CrossOrigin("http://localhost:5173")
 public class DepartmentController {
 
     private final DepartmentRepository departmentRepository;

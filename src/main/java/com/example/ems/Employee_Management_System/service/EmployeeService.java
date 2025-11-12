@@ -2,6 +2,7 @@ package com.example.ems.Employee_Management_System.service;
 
 import com.example.ems.Employee_Management_System.entity.Employee;
 import com.example.ems.Employee_Management_System.repository.EmployeeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

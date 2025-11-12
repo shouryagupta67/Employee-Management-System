@@ -1,19 +1,21 @@
 package com.example.ems.Employee_Management_System.controller;
 
+import com.example.ems.Employee_Management_System.dto.LoginRequest;
 import com.example.ems.Employee_Management_System.dto.RegisterRequest;
 import com.example.ems.Employee_Management_System.entity.Role;
 import com.example.ems.Employee_Management_System.repository.RoleRepository;
 import com.example.ems.Employee_Management_System.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import com.example.ems.Employee_Management_System.entity.User;
-import com.example.ems.Employee_Management_System.entity.User;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin("http://localhost:5173")
 public class AuthController {
 
     private final UserRepository userRepository;
@@ -51,5 +53,24 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok("✅ User registered successfully with role: " + role.getName());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest request) {
+        return userRepository.findByUsername(request.getUsername())
+                .map(user -> {
+                    if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                        // Login success
+                        return ResponseEntity.ok(Map.of(
+                                "message", "✅ Login successful",
+                                "username", user.getUsername(),
+                                "role", user.getRole().getName()
+                        ));
+                    } else {
+                        // Wrong password
+                        return ResponseEntity.status(401).body("❌ Invalid password");
+                    }
+                })
+                .orElse(ResponseEntity.status(404).body("❌ User not found"));
     }
 }
